@@ -240,3 +240,18 @@ const pets = [
       imageUrl: "http://lsae2.iypcdn.com/static//modules/uploads/photos/language1/dino-live-22.jpg?119"
     }
   ];
+const targetingApp = document.querySelector("#app");
+let domString = "";
+
+for (const pet of pets) {
+  domString += `<div class="card" style="width: 18rem;">
+  <img src="${pet.imageUrl}" class="card-img-top" alt="Picture of pet">
+  <div class="card-body">
+    <h5 class="card-title">${pet.name}</h5>
+    <p class="card-text">${pet.color} ${pet.specialSkill} </p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>`
+}
+
+targetingApp.innerHTML = domString;
