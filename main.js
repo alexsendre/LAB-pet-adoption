@@ -240,34 +240,69 @@ const pets = [
       imageUrl: "http://lsae2.iypcdn.com/static//modules/uploads/photos/language1/dino-live-22.jpg?119"
     }
   ];
-const targetingApp = document.querySelector("#app");
-let domString = "";
 
-for (const pet of pets) {
-  domString += `<div class="card" style="width: 18rem;">
-  <img src="${pet.imageUrl}" class="card-img-top" alt="Picture of pet">
-  <div class="card-body">
+const targetingApp = document.querySelector("#app");
+
+const renderToDom = (divId, htmlRender) => {
+  const targetedDiv = document.querySelector(divId);
+  targetedDiv.innerHTML = htmlRender;
+};
+
+const cardsOnDom = (array) => {
+  let domString = "";
+  for (const pet of array) {
+    domString += `<div class="card" style="width: 18rem;">
+    <img src="${pet.imageUrl}" class="card-img-top" alt="Picture of pet">
+    <div class="card-body">
     <h5 class="card-title">${pet.name}</h5>
-    <p class="card-text">${pet.color} ${pet.specialSkill} </p>
+    <p class="card-text">${pet.specialSkill} </p>
     <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>`
+    </div>
+    </div>`
+  }
+  renderToDom("#app", domString)
+};
+
+cardsOnDom(pets);
+
+const filteredContainer = document.querySelector("#filter-container")
+
+const filterPetsByType = (pets) => {
+  const filteredPets = pets.filter((pet) => pet.type === type);
+  cardsOnDom(filteredPets);
+};
+
+const filter = (array, typeString) => {
+  const typeArray = [];
+
+  for (const pets of array) {
+    if (pets.type === typeString) {
+      typeArray.push(pets);
+    }
+  }
+  return typeArray;
 }
 
-targetingApp.innerHTML = domString;
+const dogBtn = document.querySelector(".dogs");
+const catBtn = document.querySelector(".cats");
+const dinoBtn = document.querySelector(".dinos");
+const showAllBtn = document.querySelector("#show-all-btn");
 
+showAllBtn.addEventListener("click", () => {
+  cardsOnDom(pets);
+})
 
-const dogBtn = document.querySelector(".dogs")
-dogBtn.addEventListener('click', () => {
-  console.log("I clicked on dogs!");
-});
+dogBtn.addEventListener("click", () => {
+  const dogsBtn = filter(pets, "dog");
+    cardsOnDom(dogsBtn);
+  });
 
-const catBtn = document.querySelector(".cats")
-catBtn.addEventListener('click', () => {
-  console.log("I clicked on cats!");
-});
+catBtn.addEventListener("click", () => {
+  const catsBtn = filter(pets, "cat");
+    cardsOnDom(catsBtn);
+  });
 
-const dinosBtn = document.querySelector(".dinos")
-dinosBtn.addEventListener('click', () => {
-  console.log("I clicked on dinos!");
-});
+dinoBtn.addEventListener("click", () => {
+  const dinosBtn = filter(pets, "dino");
+      cardsOnDom(dinosBtn);
+  });
