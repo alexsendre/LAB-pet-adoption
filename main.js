@@ -255,3 +255,19 @@ for (const pet of pets) {
 }
 
 targetingApp.innerHTML = domString;
+
+
+const dogBtn = document.querySelector(".dogs")
+dogBtn.addEventListener('click', () => {
+  console.log("I clicked on dogs!");
+});
+
+const catBtn = document.querySelector(".cats")
+catBtn.addEventListener('click', () => {
+  console.log("I clicked on cats!");
+});
+
+const dinosBtn = document.querySelector(".dinos")
+dinosBtn.addEventListener('click', () => {
+  console.log("I clicked on dinos!");
+});
