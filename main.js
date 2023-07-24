@@ -256,7 +256,7 @@ const cardsOnDom = (array) => {
     <div class="card-body">
     <h5 class="card-title">${pet.name}</h5>
     <p class="card-text">${pet.specialSkill} </p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+    <button type="button" id="delete-btn" class="btn btn-danger">DELETE</button>
     </div>
     </div>`
   }
@@ -266,6 +266,13 @@ const cardsOnDom = (array) => {
 cardsOnDom(pets);
 
 const filteredContainer = document.querySelector("#filter-container")
+const dogBtn = document.querySelector(".dogs");
+const catBtn = document.querySelector(".cats");
+const dinoBtn = document.querySelector(".dinos");
+const showAllBtn = document.querySelector("#show-all-btn");
+const form = document.querySelector("form");
+const showFormBtn = document.querySelector("#show-form");
+const deleteBtn = document.querySelector("#delete-btn")
 
 const filterPetsByType = (pets) => {
   const filteredPets = pets.filter((pet) => pet.type === type);
@@ -283,10 +290,6 @@ const filter = (array, typeString) => {
   return typeArray;
 }
 
-const dogBtn = document.querySelector(".dogs");
-const catBtn = document.querySelector(".cats");
-const dinoBtn = document.querySelector(".dinos");
-const showAllBtn = document.querySelector("#show-all-btn");
 
 showAllBtn.addEventListener("click", () => {
   cardsOnDom(pets);
@@ -306,3 +309,64 @@ dinoBtn.addEventListener("click", () => {
   const dinosBtn = filter(pets, "dino");
       cardsOnDom(dinosBtn);
   });
+
+const petForm = () => {
+  let domString = "";
+  domString += `
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control" id="name" placeholder="Enter name">
+    </div>
+
+    <div class="form-group">
+      <label for="color">Color:</label>
+      <input type="text" class="form-control" id="color" placeholder="Enter color">
+    </div>
+
+    <div class="form-group">
+      <label for="specialSkill">Special Skill:</label>
+      <input type="text" class="form-control" id="specialSkill" placeholder="Enter special skill">
+    </div>
+
+    <div class="form-group">
+      <label for="type">Type:</label>
+      <input type="text" class="form-control" id="type" placeholder="Enter type">
+    </div>
+
+    <div class="form-group">
+      <label for="imageUrl">Image:</label>
+      <input type="url" class="form-control" id="imageUrl" placeholder="Enter URL">
+    </div>
+
+    <div class="form-check">
+      <label class="form-check-label" for="adorable">Adorable?</label>
+      <input type="checkbox" class="form-check-input" id="adorable">
+    </div>
+    
+    <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+  `
+  renderToDom("#form-container", domString)
+}
+showFormBtn.addEventListener('click', (e) => {
+
+  petForm();
+});
+
+const createPet = (e) => {
+  e.preventDefault();
+
+  const newPet = {
+    id: pets.length + 1,
+    name: document.querySelector("#name").value,
+    color: document.querySelector("#color").value,
+    specialSkill: document.querySelector("#specialSkill").value,
+    type: document.querySelector("#type").value,
+    imageUrl: document.querySelector("#imageUrl").value
+  }
+  console.log(e);
+  pets.push(newPet);
+  cardsOnDom(pets);
+  form.reset();
+}
+
+form.addEventListener("submit", createPet);
